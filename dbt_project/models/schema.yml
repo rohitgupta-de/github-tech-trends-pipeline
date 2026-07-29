@@ -1,0 +1,48 @@
+version: 2
+
+sources:
+  - name: github_raw
+    schema: main
+    description: "Raw ingested GitHub repositories data stored in DuckDB"
+    tables:
+      - name: raw_repos
+        description: "Raw JSON/parquet ingestion records from GitHub API"
+        loaded_at_field: extracted_at
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+
+models:
+  - name: stg_github_repos
+    description: "Cleaned and deduplicated staging layer for GitHub repositories"
+    columns:
+      - name: repo_id
+        description: "Primary key for the repository"
+        data_tests:
+          - unique
+          - not_null
+      - name: repo_name
+        description: "Name of the GitHub repository"
+        data_tests:
+          - not_null
+      - name: stargazers_count
+        description: "Number of stars on the repository"
+        data_tests:
+          - not_null
+
+  - name: gold_repo_metrics
+    description: "Aggregated gold metrics and engagement analytics"
+    columns:
+      - name: repo_id
+        description: "Primary key linking back to staging repos"
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_github_repos')
+                field: repo_id
+      - name: engagement_score
+        description: "Combined score calculated from stars and forks"
+        data_tests:
+          - not_null

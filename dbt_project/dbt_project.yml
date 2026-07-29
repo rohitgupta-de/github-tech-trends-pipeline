@@ -1,0 +1,15 @@
+name: 'github_tech_trends'
+version: '1.0.0'
+config-version: 2
+
+profile: 'github_tech_trends'
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  github_tech_trends:
+    +materialized: table

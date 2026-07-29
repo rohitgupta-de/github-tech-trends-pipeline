@@ -1,0 +1,7 @@
+github_tech_trends:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '/opt/airflow/data/gold/github_analytics.duckdb') }}"
+      threads: "{{ env_var('DBT_THREADS', '1') | int }}"
