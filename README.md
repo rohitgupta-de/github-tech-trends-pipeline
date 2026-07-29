@@ -23,3 +23,10 @@ streamlit run dashboard.py
 
 * **Rohit Gupta** - [rohitgupta-de](https://github.com/rohitgupta-de)
 
+
+## ⚙️ Airflow Pipeline Architecture
+
+The pipeline orchestrates API ingestion, schema validation, DuckDB transformations, and metric aggregations across a multi-stage DAG with automated retry logic and exception callbacks.
+
+![Airflow DAG Workflow](assets/airflow_dag.jpeg)
+
